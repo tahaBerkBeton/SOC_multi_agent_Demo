@@ -1,4 +1,4 @@
-# agentic_workflow_UI.py
+# agentic_workflow.py
 import json
 import re
 import datetime
@@ -134,7 +134,7 @@ Remember:
     ),
     model="gpt-4.1-2025-04-14",
     base_url="https://api.openai.com/v1",
-    api_key="YOUR-KEY",
+    api_key="YOUR_KEY",
     workspace=True,
     workdata="{}",
     mcp_server="orchestrator_server.py",
@@ -168,7 +168,7 @@ Remember:
     ),
     model="gpt-4.1-2025-04-14",
     base_url="https://api.openai.com/v1",
-    api_key="YOUR-KEY",
+    api_key="YOUR_KEY",
     workspace=True,
     workdata="{}",
     mcp_server="mail_server.py",
