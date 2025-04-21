@@ -29,13 +29,13 @@ This repository demonstrates a multi-agent architecture simulating a Security Op
    ```
 
 3. **Configure your LLM Backend**
-   Open `agentic_workflow.py` (or create a new `config.py`) and set your LLM service parameters directly in code:
+   Open `agentic_workflow.py`  and set your LLM service parameters directly in code:
 
    ```python
 
-       "model": "gpt-4.1-2025-04-14", #Adjust with your prefered model
-       "base_url": "https://api.openai.com/v1",  # Change for other services
-       "api_key": "your_api_key_here"
+       model="gpt-4.1-2025-04-14", #Adjust with your prefered model
+       base_url="https://api.openai.com/v1",  # Change for other services
+       api_key="your_api_key_here"
 
    ```
 
@@ -54,7 +54,7 @@ This will:
 1. Initialize the Orchestrator with a predefined security alert.
 2. Delegate email analysis to the Mail Agent.
 3. Execute tool calls to log tickets, generate reports, and optionally send SMS alerts.
-4. Save conversational transcripts in the `conversations/` directory and agent workspaces in `workspaces/`.
+4. Save conversational transcripts in the `conversations/` directory and agent generated logs, reports and sms messages to the `Assets/` directory `.
 
 ## File Structure
 
