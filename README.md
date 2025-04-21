@@ -22,7 +22,10 @@ The `agentic_workflow.py` script showcases a fully autonomous workflow that hand
 
 ## Demo Video
 
-[https://github.com/user-attachments/assets/11247f15-bb49-40cb-9a57-a94305cc7ab6](https://github.com/user-attachments/assets/11247f15-bb49-40cb-9a57-a94305cc7ab6)
+
+
+https://github.com/user-attachments/assets/40d08f9b-2b03-4fe4-ab8b-ae62db955c7d
+
 
 ---
 
