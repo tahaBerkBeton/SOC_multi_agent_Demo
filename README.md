@@ -2,56 +2,55 @@
 
 ## Overview
 
-This repository demonstrates a multi-agent architecture simulating a Security Operations Center (SOC) workflow using OpenAI’s API and custom inter-process tool servers. It features:
-
-- **Orchestrator Agent**: Coordinates security alerts, delegates tasks, logs tickets, writes reports, and sends alerts.
-- **Mail Agent**: Specializes in email threat analysis, including searching, inspecting emails, scanning attachments, and blocking malicious senders.
-- **Custom MCP Protocol**: Implements a simple JSON-over-STDIO protocol (`my_mcp`) to expose tools via `SimpleServer` and interact with them through `SimpleClient`.
-- **Workspace Management**: Agents maintain stateful file-based workspaces for task assignments.
-- **Logging & Reporting**: Tools for logging incident tickets and generating detailed reports.
-- **Sample Data**: A collection of sample emails (`assets/mail.json`) for the Mail Agent to analyze.
-
+This repository demonstrates a multi-agent architecture simulating a Security Operations Center (SOC) workflow 
 ## Demo Video
 
-
-
-
-https://github.com/user-attachments/assets/11247f15-bb49-40cb-9a57-a94305cc7ab6
-
-
-
-
+[https://github.com/user-attachments/assets/11247f15-bb49-40cb-9a57-a94305cc7ab6](https://github.com/user-attachments/assets/11247f15-bb49-40cb-9a57-a94305cc7ab6)
 
 ## Prerequisites
 
 - Python 3.9 or higher
-- An OpenAI API key
+- An OpenAI API key, or configuration for another LLM service backend (e.g. Groq, or locally via Ollama, VLLM).
+  - This demo was tested with OpenAI’s latest `gpt-4.1-2025-04-14` release.
 
 ## Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/tahaBerkBeton/SOC_multi_agent_Demo.git
    cd SOC_multi_agent_Demo
    ```
 
 2. **Install dependencies**
+
    ```bash
    pip install openai colorama
    ```
 
-3. **Configure API Key**
-   ```bash
-   export OPENAI_API_KEY="your_api_key_here"
+3. **Configure your LLM Backend**
+   Open `agentic_workflow.py` (or create a new `config.py`) and set your LLM service parameters directly in code:
+
+   ```python
+
+       "model": "gpt-4.1-2025-04-14", #Adjust with your prefered model
+       "base_url": "https://api.openai.com/v1",  # Change for other services
+       "api_key": "your_api_key_here"
+
    ```
+
+   Simply replace the values to point at Groq, Ollama, VLLM, or any other endpoint you use.
 
 ## Usage
 
 Run the demo workflow:
+
 ```bash
 python agentic_workflow.py
 ```
+
 This will:
+
 1. Initialize the Orchestrator with a predefined security alert.
 2. Delegate email analysis to the Mail Agent.
 3. Execute tool calls to log tickets, generate reports, and optionally send SMS alerts.
@@ -62,23 +61,22 @@ This will:
 ```
 .
 ├── agentic_workflow.py      # Main script coordinating the agents
-├── agents.py                # Agent & Runner classes managing LLM interactions
+├── agents.py                # Agent SDK
 ├── orchestrator_server.py   # Orchestrator tools server
-├── mail_server.py           # Mail analysis tools server
+├── mail_server.py           # Mail Agent tools server
 ├── my_mcp/                  # MCP protocol implementation
 │   ├── __init__.py
 │   ├── server.py            # SimpleServer for tool hosting
 │   └── client.py            # SimpleClient for tool invocation
 ├── assets/
 │   └── mail.json            # Sample email dataset
-├── Demo.mp4                 # Video demonstration
 └── README.md                # Project overview and usage
 ```
 
 ## Workflow Description
 
 1. **Orchestrator** assesses a security alert and delegates tasks.
-2. **Mail Agent** searches for emails, inspects content and attachments, and reports findings.
+2. **Mail Agent** searches for emails, inspects content and attachments, performs required actions and reports findings.
 3. **Orchestrator** uses `log_ticket` and `write_report` to document the incident, and can `send_sms_alert` for critical issues.
 
 ## Contributing
