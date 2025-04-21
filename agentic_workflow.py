@@ -1,4 +1,4 @@
-# agentic_workflow.py
+# agentic_workflow_UI.py
 import json
 import re
 import datetime
@@ -60,16 +60,19 @@ Action: Allowed
 
 ORCHESTRATOR_REMINDER = """You have ended your turn without initiating a followup process meant to complete the task. As the orchestrator, you can either:
 1. Handoff to another agent using <handoff>AgentName</handoff> to further complete the task.
-2. Execute a tool if it aligns with your strategy to solve the task
+2. Execute a tool if it aligns with your strategy to solve the task using <tool_call>{...}</tool_call>.
 3. Terminate the workflow if the task is solved using </terminate>
 Please choose one of these actions to proceed.
-Note that if this situation arises after you made a tool, termination or a handoff call, but no termination, tool result or hanfoff was returned, this might be related to an incorrect use of the tags."""
+Note that if this situation arises after you made a tool, termination or a handoff call, but no termination, tool result or hanfoff was returned, 
+this can be related to an incorrect use of the tags or the tool call.
+You must repeat your action until you get a system result."""
 
 SUBAGENT_REMINDER = """You have ended your turn without initiating one of your allowed actions. You can either:
 1. Execute a tool call using <tool_call>{...}</tool_call>.
 2. Handoff to the orchestrator using <handoff>Orchestrator</handoff>
 If you feel you have finished your task, you should handoff to the orchestrator. Otherwise, you can continue with tool calls to accomplish your task. 
-Note that if this situation arises after you made a tool or a handoff call, but no tool result or hanfoff was returned, this might be related to an incorrect use of the tags. """
+Note that if this situation arises after you made a tool or a handoff call, but no tool result or hanfoff was returned, this can be related to an incorrect use of the tags or the tool call.
+You must repeat your action until you get a system result. """
 
 SUBAGENT_STEP_LIMIT_MESSAGE = """Hey orchestrator, the turn was given back to you on suspicion that your subagent might have been stuck.
 You can refine your plan and hand off to them again, or decide that the workflow has failed and terminate."""
@@ -78,7 +81,6 @@ MAX_TOTAL_STEPS_MESSAGE = """The workflow has reached the maximum allowed steps 
 
 
 # Helper regex utilities
-
 def extract_tool_call(text: str):
     m = re.search(r"<tool_call>\s*(\{.*?\})\s*</tool_call>", text, re.DOTALL)
     if not m:
@@ -121,8 +123,8 @@ When you receive a security alert:
 For email-related threats:
 - Delegate to the MailAgent for deep analysis of suspicious emails and attachments. Before delegating, always write the detailed assigned task into the agent's workspace, then handoff.
 - Review their findings to determine overall organizational risk
-- Authorize blocking of malicious senders, if necessary
-- Ensure appropriate alerts are sent to security teams for severe threats
+- Authorize blocking of malicious senders, if necessary (step to be taken by the MailAgent, insure immediate further handoff )
+- Once All actions have been undertaken by the subagent, ensure appropriate alerts are sent to security teams for severe threats
 
 Remember:
 - Security incidents require careful documentation. Use the log_ticket and write_report tools.
@@ -173,15 +175,10 @@ Remember:
     handoffs=[orchestrator],
 )
 
-
-
 # Set up handoffs for the orchestrator
 orchestrator.handoffs = [mail_agent]
 
-
-
 # Autonomous workflow implementation
-
 def run_agentic_workflow(system_message: str, max_total_steps: int = 20, max_subagent_steps: int = 10):
     """
     Run an autonomous workflow starting with the orchestrator agent and a system message.
@@ -315,10 +312,7 @@ def run_agentic_workflow(system_message: str, max_total_steps: int = 20, max_sub
     print_footer("SECURITY INCIDENT INVESTIGATION COMPLETED")
     print(f"\nWorkflow conversation saved to {filename}")
 
-
- 
 # Main execution
- 
 def main():
     system_message = SYSTEM_START_MESSAGE
     run_agentic_workflow(
