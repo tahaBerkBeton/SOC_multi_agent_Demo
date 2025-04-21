@@ -13,10 +13,14 @@ This repository demonstrates a multi-agent architecture simulating a Security Op
 
 ## Demo Video
 
-<video controls width="600">
-  <source src="Demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+
+
+
+https://github.com/user-attachments/assets/11247f15-bb49-40cb-9a57-a94305cc7ab6
+
+
+
+
 
 ## Prerequisites
 
