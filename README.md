@@ -4,7 +4,7 @@
 
 This repository contains a custom agent SDK inspired by OpenAI's Agents SDK, with a streamlined focus on core functionalities. It allows defining agents with their own model, instruction handoffs, API key, and base URL, making it compatible with various LLM backends, including local setups using the OpenAI open API.
 
-This project demonstrates these capabilities through a demo tailored for a Security Operations Center (SOC) workflow, where multiple agents collaborate to investigate email-based threats, document incidents, and escalate when needed.
+This project demonstrates these capabilities through a demo tailored for a Security Operations Center (SOC) workflow, where multiple agents collaborate with handoffs to investigate email-based threats, document incidents, and escalate when needed.
 
 ### Key Features
 
